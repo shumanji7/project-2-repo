@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import backgroundImage from './forest.jpg';
+
 
 function Login() {
   const [username, setUsername] = useState('');
@@ -20,8 +22,9 @@ function Login() {
   };
 
   return (
-    <form onSubmit={handleLogin}>
-      <h2>Login</h2>
+    <div style={{ backgroundImage:`url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', height: '100vh' }}>
+    <h1 style={{color:'white', textAlign:'center', padding:'5%'}}>Welcome to Movie Forest</h1>
+    <form style={{display:'inline-grid', position:'absolute', top:'10%', right:'5%'}} onSubmit={handleLogin}>
       <input
         type="text"
         placeholder="Username"
@@ -39,6 +42,7 @@ function Login() {
       <button type="submit">Login</button>
       <button type="button" onClick={() => navigate('/register')}>Register</button>
     </form>
+    </div>
   );
 }
 
