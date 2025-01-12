@@ -188,6 +188,7 @@ function getRelatedMoviesByGenres(genres) {
       related.push(...relatedFilms[genre]);
     }
   });
+
   const seen = new Set();
   const uniqueMovies = related.filter(movie => {
     if (seen.has(movie.id)) {
@@ -195,8 +196,24 @@ function getRelatedMoviesByGenres(genres) {
     }
     seen.add(movie.id);
     return true;
-});
-console.log('Unique Related Movies:', uniqueMovies); 
+  });
+  return uniqueMovies;
+}
+
+function displayRelatedMovies(movies) {
+  const relatedMoviesElement = document.getElementById('related-movies');
+  relatedMoviesElement.innerHTML = '';  // Clear any previous content
+
+  if (movies.length === 0) {
+    relatedMoviesElement.innerHTML = '<p>No related movies found.</p>';
+  } else {
+    movies.forEach(movie => {
+      const movieElement = document.createElement('div');
+      movieElement.classList.add('related-movie');
+      movieElement.textContent = movie.title;
+      relatedMoviesElement.appendChild(movieElement);
+    });
+  }
 }
 
 app.use(express.static('public'));
@@ -204,28 +221,29 @@ app.use(express.static('public'));
 app.get('/films', (req, res) => {
   res.json(films);
 });
-function displayRelatedMovies(movies) {
-  const relatedMoviesElement = document.getElementById('related-movies');
-  relatedMoviesElement.innerHTML = ''; 
-
-  if (movies.length === 0) {
-      relatedMoviesElement.innerHTML = '<p>No related movies found.</p>';
-  } else {
-      movies.forEach(movie => {
-          const movieElement = document.createElement('div');
-          movieElement.classList.add('related-movie');
-          movieElement.textContent = movie.title;
-          relatedMoviesElement.appendChild(movieElement);
-      });
-  }
-}
 app.get('/related-movies', (req, res) => {
   const selectedFilmIds = req.query.ids ? req.query.ids.split(',').map(Number) : [];
+
+  if (selectedFilmIds.length === 0) {
+    return res.status(400).json({ error: 'No films selected' });
+  }
+
   const selectedFilms = films.filter(film => selectedFilmIds.includes(film.id));
+  if (selectedFilms.length === 0) {
+    return res.status(404).json({ error: 'Selected films not found' });
+  }
+
   const allGenres = [...new Set(selectedFilms.flatMap(film => film.genreIds))];
   const relatedFilms = getRelatedMoviesByGenres(allGenres);
-  res.json(relatedFilms);
+
+  // Return the related films in a valid JSON format
+  if (relatedFilms.length > 0) {
+    return res.json(relatedFilms);  // Valid JSON response
+  } else {
+    return res.status(404).json({ error: 'No related movies found' });  // Handle empty result
+  }
 });
+
 
 //Start server
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

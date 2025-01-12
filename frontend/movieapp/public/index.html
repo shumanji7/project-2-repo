@@ -24,7 +24,6 @@
     .movie-item.selected {
         background-color: #ddd;
     }
-</style>
     </style>
 </head>
 <body>
@@ -36,11 +35,11 @@
     <div class="related-movies" id="related-movies"></div>
     <div class="related-movies-container">
         <h2>Related Movies</h2>
-        <ul class="related-movie-list" id="related-movies"></ul>
+        <ul class="related-movie-list" id="related-movies-list"></ul>
     </div>
 </body>
 
-    <script>
+<script>
   async function loadFilms() {
     try {
         const response = await fetch('http://localhost:5000/films'); 
@@ -66,7 +65,6 @@
                 toggleShowButton();  
             });
 
-            
             movieListElement.appendChild(movieElement);
         });
     } catch (error) {
@@ -76,13 +74,13 @@
 
 document.addEventListener('DOMContentLoaded', loadFilms);
        
-        function toggleShowButton() {
-            const selectedMovies = document.querySelectorAll('.movie-item.selected');
-            const showButton = document.getElementById('showRelatedMovies');
-            showButton.style.display = selectedMovies.length > 0 ? 'inline' : 'none';
-        }
+function toggleShowButton() {
+    const selectedMovies = document.querySelectorAll('.movie-item.selected');
+    const showButton = document.getElementById('showRelatedMovies');
+    showButton.style.display = selectedMovies.length > 0 ? 'inline' : 'none';
+}
 
-        async function loadRelatedMovies() {
+async function loadRelatedMovies() {
     const selectedMovies = document.querySelectorAll('.movie-item.selected');
     const selectedIds = Array.from(selectedMovies).map(movie => movie.dataset.id);
 
@@ -90,38 +88,37 @@ document.addEventListener('DOMContentLoaded', loadFilms);
         console.log('No films selected');
         return;
     }
+
     console.log('Selected Movie IDs:', selectedIds);
 
     try {
         const response = await fetch(`http://localhost:5000/related-movies?ids=${selectedIds.join(',')}`);
-        if (!response.ok) {
-            throw new Error('Failed to fetch related movies');
-        }
         const relatedMovies = await response.json();
+
         console.log('Related Movies:', relatedMovies); 
-        displayRelatedMovies(relatedMovies);
+        displayRelatedMovies(relatedMovies);  // Now this function is being called
     } catch (error) {
         console.error('Error fetching related movies:', error);
     }
 }
 
-
-
+// Function to display related movies in the UI
 function displayRelatedMovies(movies) {
-    const relatedMoviesElement = document.getElementById('related-movies');
+    const relatedMoviesElement = document.getElementById('related-movies-list');
     relatedMoviesElement.innerHTML = '';  
 
-    movies.forEach(movie => {
-        const movieElement = document.createElement('div');
-        movieElement.classList.add('related-movie');
-        movieElement.textContent = movie.title;
-        relatedMoviesElement.appendChild(movieElement);
-    });
+    if (movies.length === 0) {
+        relatedMoviesElement.innerHTML = '<p>No related movies found.</p>';
+    } else {
+        movies.forEach(movie => {
+            const movieElement = document.createElement('li');
+            movieElement.textContent = movie.title;
+            relatedMoviesElement.appendChild(movieElement);
+        });
+    }
 }
-        document.getElementById('showRelatedMovies').addEventListener('click', loadRelatedMovies);
 
-    </script>
+document.getElementById('showRelatedMovies').addEventListener('click', loadRelatedMovies);
+</script>
 
-
-
-
+</html>
