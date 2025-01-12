@@ -17,7 +17,8 @@ function Login() {
       localStorage.setItem('accessToken', accessToken);
       navigate('/welcome');
     } catch (error) {
-      alert('Login failed. Please try again.');
+      console.error('Login error:', error); 
+    alert('Login failed. Please try again.');
     }
   };
 
