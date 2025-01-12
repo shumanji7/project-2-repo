@@ -23,15 +23,27 @@ function Login() {
   };
 
   return (
-    <div style={{ backgroundImage:`url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', height: '100vh' }}>
+    <div 
+    style={{ 
+      backgroundImage:`url(${backgroundImage})`, 
+      backgroundSize: 'cover', 
+      backgroundPosition: 'center', 
+      height: '100vh',  
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      color: 'white',
+      textAlign: 'center', 
+      }}>
     <h1 style={{color:'white', textAlign:'center', padding:'5%'}}>Welcome to Movie Forest</h1>
-    <form style={{display:'inline-grid', position:'absolute', top:'10%', right:'5%'}} onSubmit={handleLogin}>
+    <form onSubmit={handleLogin} style={{display:'inline-grid', position:'absolute', top:'10%', right:'5%'}}>
       <input
         type="text"
         placeholder="Username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
         required
+        style={{ marginBottom: '5px', padding: '5px', width: '150px' }}
       />
       <input
         type="password"

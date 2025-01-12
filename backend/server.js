@@ -125,59 +125,59 @@ const films = [
 //Selection of 9 related films per genre
 const relatedFilms = {
   'Action': [
-    { id: 101, title: 'Leon the Professional'},
-    { id: 102, title: 'John Wick'},
-    { id: 103, title: 'Full Metal Jacket'},
-    { id: 104, title: 'Crouching Tiger, Hidden Dragon'},
-    { id: 105, title: 'Gladiator'},
-    { id: 106, title: 'Kill Bill: Volume 1'},
-    { id: 107, title: 'Goldfinger'},
-    { id: 108, title: 'The Warriors'},
-    { id: 109, title: 'Apocalypse Now'},
+    { id: 101, title: 'Leon the Professional', genreIds: ['Action']},
+    { id: 102, title: 'John Wick', genreIds: ['Action']},
+    { id: 103, title: 'Full Metal Jacket', genreIds: ['Action']},
+    { id: 104, title: 'Crouching Tiger, Hidden Dragon', genreIds: ['Action']},
+    { id: 105, title: 'Gladiator', genreIds: ['Action']},
+    { id: 106, title: 'Kill Bill: Volume 1', genreIds: ['Action']},
+    { id: 107, title: 'Goldfinger', genreIds: ['Action']},
+    { id: 108, title: 'The Warriors', genreIds: ['Action']},
+    { id: 109, title: 'Apocalypse Now', genreIds: ['Action']},
   ],
   'Sci-Fi': [
-    { id: 201, title: 'District 9'},
-    { id: 202, title: 'Alien'},
-    { id: 203, title: 'Moon'},
-    { id: 204, title: 'Starship Troopers'},
-    { id: 205, title: 'Star Wars: Episode III - Revenge of the Sith'},
-    { id: 206, title: '2001: A Space Odyssey'},
-    { id: 207, title: 'Donnie Darko'},
-    { id: 208, title: 'Blade Runner'},
-    { id: 209, title: 'Ex Machina'},
+    { id: 201, title: 'District 9', genreIds: ['Sci-Fi']},
+    { id: 202, title: 'Alien', genreIds: ['Sci-Fi']},
+    { id: 203, title: 'Moon', genreIds: ['Sci-Fi']},
+    { id: 204, title: 'Starship Troopers', genreIds: ['Sci-Fi']},
+    { id: 205, title: 'Star Wars: Episode III - Revenge of the Sith', genreIds: ['Sci-Fi']},
+    { id: 206, title: '2001: A Space Odyssey', genreIds: ['Sci-Fi']},
+    { id: 207, title: 'Donnie Darko', genreIds: ['Sci-Fi']},
+    { id: 208, title: 'Blade Runner', genreIds: ['Sci-Fi']},
+    { id: 209, title: 'Ex Machina', genreIds: ['Sci-Fi']},
   ],
   'Comedy': [
-    { id: 301, title: 'Shaun of the Dead'},
-    { id: 302, title: 'Friday'},
-    { id: 303, title: 'Borat'},
-    { id: 304, title: 'Snatch'},
-    { id: 305, title: 'Lock, Stock and Two Smoking Barrels'},
-    { id: 306, title: 'The Other Guys'},
-    { id: 307, title: 'Anchorman'},
-    { id: 308, title: 'The Big Lebowski'},
-    { id: 309, title: 'Hot Fuzz'},
+    { id: 301, title: 'Shaun of the Dead', genreIds: ['Comedy']},
+    { id: 302, title: 'Friday', genreIds: ['Comedy']},
+    { id: 303, title: 'Borat', genreIds: ['Comedy']},
+    { id: 304, title: 'Snatch', genreIds: ['Comedy']},
+    { id: 305, title: 'Lock, Stock and Two Smoking Barrels', genreIds: ['Comedy']},
+    { id: 306, title: 'The Other Guys', genreIds: ['Comedy']},
+    { id: 307, title: 'Anchorman', genreIds: ['Comedy']},
+    { id: 308, title: 'The Big Lebowski', genreIds: ['Comedy']},
+    { id: 309, title: 'Hot Fuzz', genreIds: ['Comedy']},
   ],
   'Drama': [
-    { id: 401, title: 'Scarface'},
-    { id: 402, title: 'City of God'},
-    { id: 403, title: 'The Green Mile'},
-    { id: 404, title: 'The Godfather'},
-    { id: 405, title: 'Trainspotting'},
-    { id: 406, title: 'One Flew Over the Cuckoos Nest'},
-    { id: 407, title: 'Goodfellas'},
-    { id: 408, title: 'The Truman Show'},
-    { id: 409, title: 'Taxi Driver'},
+    { id: 401, title: 'Scarface', genreIds: ['Drama']},
+    { id: 402, title: 'City of God', genreIds: ['Drama']},
+    { id: 403, title: 'The Green Mile', genreIds: ['Drama']},
+    { id: 404, title: 'The Godfather', genreIds: ['Drama']},
+    { id: 405, title: 'Trainspotting', genreIds: ['Drama']},
+    { id: 406, title: 'One Flew Over the Cuckoos Nest', genreIds: ['Drama']},
+    { id: 407, title: 'Goodfellas', genreIds: ['Drama']},
+    { id: 408, title: 'The Truman Show', genreIds: ['Drama']},
+    { id: 409, title: 'Taxi Driver', genreIds: ['Drama']},
   ],
   'Horror': [
-    { id: 501, title: '28 Days Later'},
-    { id: 502, title: '28 Weeks Later'},
-    { id: 503, title: 'Rosemarys Baby'},
-    { id: 504, title: 'Requiem for a Dream'},
-    { id: 505, title: 'Jacobs Ladder'},
-    { id: 506, title: 'American Psycho'},
-    { id: 507, title: 'House'},
-    { id: 508, title: 'Silence of the Lambs'},
-    { id: 509, title: 'Resident Evil'},
+    { id: 501, title: '28 Days Later', genreIds: ['Horror']},
+    { id: 502, title: '28 Weeks Later', genreIds: ['Horror']},
+    { id: 503, title: 'Rosemarys Baby', genreIds: ['Horror']},
+    { id: 504, title: 'Requiem for a Dream', genreIds: ['Horror']},
+    { id: 505, title: 'Jacobs Ladder', genreIds: ['Horror']},
+    { id: 506, title: 'American Psycho', genreIds: ['Horror']},
+    { id: 507, title: 'House', genreIds: ['Horror']},
+    { id: 508, title: 'Silence of the Lambs', genreIds: ['Horror']},
+    { id: 509, title: 'Resident Evil', genreIds: ['Horror']},
   ],
 };
 
@@ -202,7 +202,7 @@ function getRelatedMoviesByGenres(genres) {
 
 function displayRelatedMovies(movies) {
   const relatedMoviesElement = document.getElementById('related-movies');
-  relatedMoviesElement.innerHTML = '';  // Clear any previous content
+  relatedMoviesElement.innerHTML = ''; 
 
   if (movies.length === 0) {
     relatedMoviesElement.innerHTML = '<p>No related movies found.</p>';
@@ -236,14 +236,14 @@ app.get('/related-movies', (req, res) => {
   const allGenres = [...new Set(selectedFilms.flatMap(film => film.genreIds))];
   const relatedFilms = getRelatedMoviesByGenres(allGenres);
 
-  // Return the related films in a valid JSON format
+  // Returns related films
   if (relatedFilms.length > 0) {
-    return res.json(relatedFilms);  // Valid JSON response
+    return res.json(relatedFilms);  
   } else {
-    return res.status(404).json({ error: 'No related movies found' });  // Handle empty result
+    return res.status(404).json({ error: 'No related movies found' });  
   }
 });
 
 
-//Start server
+//Starts server
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
