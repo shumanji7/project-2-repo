@@ -122,7 +122,6 @@ app.get('/welcome', (req, res) => {
 app.get('/movie/:id', (req, res) => {
   const movieId = parseInt(req.params.id, 10);
 
-  // Find the movie in horror or suspense genres
   const movie =
     horror.find((film) => film.id === movieId) ||
     suspense.find((film) => film.id === movieId);
@@ -131,7 +130,7 @@ app.get('/movie/:id', (req, res) => {
     return res.status(404).json({ error: 'Movie not found' });
   }
 
-  // Get related movies by genre
+  
   const relatedMovies =
     movie.genreIds.includes('Horror') ? horror.filter((film) => film.id !== movie.id) :
     movie.genreIds.includes('Suspense') ? suspense.filter((film) => film.id !== movie.id) :
@@ -157,15 +156,69 @@ app.get('/films/suspense', (req, res) => {
 
 //5 feature films to choose from
 const suspense = [
-  { id: 1, title: 'The Dark Knight', genreIds: ['Suspense'],  image: 'http://localhost:5000/images/knight.jpg' },
-  { id: 2, title: 'The Matrix', genreIds: ['Suspense'], image: 'http://localhost:5000/images/matrix.jpg' },
-  { id: 4, title: 'Shawshank Redemption', genreIds: ['Suspense'],  image: 'http://localhost:5000/images/shawshank.jpg' },
-  { id: 5, title: 'The Shining', genreIds: ['Suspense'], image: 'http://localhost:5000/images/shining.jpg'},
-  { id: 6, title: 'No Country for Old Men', genreIds: ['Suspense'],  image: 'http://localhost:5000/images/country.jpg' },
-  { id: 7, title: 'A Beautiful Mind', genreIds: ['Suspense'], image: 'http://localhost:5000/images/beautiful.jpg' },
-  { id: 8, title: 'Fargo', genreIds: ['Suspense'],  image: 'http://localhost:5000/images/fargo.jpg' },
-  { id: 9, title: 'Hangover', genreIds: ['Suspense'],  image: 'http://localhost:5000/images/hangover.jpg' },
-  { id: 10, title: 'Borat', genreIds: ['Suspense'], image: 'http://localhost:5000/images/borat.jpg'},
+  { id: 1, title: 'The Dark Knight', genreIds: ['Suspense'],  image: 'http://localhost:5000/images/knight.jpg',
+    links: {
+      youtube: 'https://www.youtube.com/watch?v=B9wbHZM-L8g',
+      dailymotion: 'https://www.dailymotion.com/video/xyz123',
+      prime: 'https://www.primevideo.com/detail/abc123',
+    },
+   },
+  { id: 2, title: 'The Matrix', genreIds: ['Suspense'], image: 'http://localhost:5000/images/matrix.jpg',
+    links: {
+      youtube: 'https://www.youtube.com/watch?v=abc123',
+      dailymotion: 'https://www.dailymotion.com/video/xyz123',
+      prime: 'https://www.primevideo.com/detail/abc123',
+    },
+   },
+  { id: 4, title: 'Shawshank Redemption', genreIds: ['Suspense'],  image: 'http://localhost:5000/images/shawshank.jpg',
+    links: {
+      youtube: 'https://www.youtube.com/watch?v=abc123',
+      dailymotion: 'https://www.dailymotion.com/video/xyz123',
+      prime: 'https://www.primevideo.com/detail/abc123',
+    },
+   },
+  { id: 5, title: 'The Shining', genreIds: ['Suspense'], image: 'http://localhost:5000/images/shining.jpg',
+    links: {
+      youtube: 'https://www.youtube.com/watch?v=abc123',
+      dailymotion: 'https://www.dailymotion.com/video/xyz123',
+      prime: 'https://www.primevideo.com/detail/abc123',
+    },
+  },
+  { id: 6, title: 'No Country for Old Men', genreIds: ['Suspense'],  image: 'http://localhost:5000/images/country.jpg',
+    links: {
+      youtube: 'https://www.youtube.com/watch?v=abc123',
+      dailymotion: 'https://www.dailymotion.com/video/xyz123',
+      prime: 'https://www.primevideo.com/detail/abc123',
+    },
+   },
+  { id: 7, title: 'A Beautiful Mind', genreIds: ['Suspense'], image: 'http://localhost:5000/images/beautiful.jpg',
+    links: {
+      youtube: 'https://www.youtube.com/watch?v=abc123',
+      dailymotion: 'https://www.dailymotion.com/video/xyz123',
+      prime: 'https://www.primevideo.com/detail/abc123',
+    },
+   },
+  { id: 8, title: 'Fargo', genreIds: ['Suspense'],  image: 'http://localhost:5000/images/fargo.jpg',
+    links: {
+      youtube: 'https://www.youtube.com/watch?v=abc123',
+      dailymotion: 'https://www.dailymotion.com/video/xyz123',
+      prime: 'https://www.primevideo.com/detail/abc123',
+    },
+   },
+  { id: 9, title: 'Hangover', genreIds: ['Suspense'],  image: 'http://localhost:5000/images/hangover.jpg',
+    links: {
+      youtube: 'https://www.youtube.com/watch?v=abc123',
+      dailymotion: 'https://www.dailymotion.com/video/xyz123',
+      prime: 'https://www.primevideo.com/detail/abc123',
+    },
+   },
+  { id: 10, title: 'Borat', genreIds: ['Suspense'], image: 'http://localhost:5000/images/borat.jpg',
+    links: {
+      youtube: 'https://www.youtube.com/watch?v=abc123',
+      dailymotion: 'https://www.dailymotion.com/video/xyz123',
+      prime: 'https://www.primevideo.com/detail/abc123',
+    },
+  },
 
 ];
 
@@ -217,15 +270,69 @@ const actionFilms = [
     { id: 409, title: 'Taxi Driver', genreIds: ['Drama']},
   ];
   const horror = [
-    { id: 501, title: '28 Days Later', genreIds: ['Horror'],  image: 'http://localhost:5000/images/28days.jpg'},
-    { id: 502, title: '28 Weeks Later', genreIds: ['Horror'],  image: 'http://localhost:5000/images/28weeks.jpg'},
-    { id: 503, title: 'Rosemarys Baby', genreIds: ['Horror'],  image: 'http://localhost:5000/images/rosemary.jpg'},
-    { id: 504, title: 'Requiem for a Dream', genreIds: ['Horror'],  image: 'http://localhost:5000/images/dream.jpg'},
-    { id: 505, title: 'Jacobs Ladder', genreIds: ['Horror'],  image: 'http://localhost:5000/images/jacob.jpg'},
-    { id: 506, title: 'American Psycho', genreIds: ['Horror'],  image: 'http://localhost:5000/images/psycho.jpg'},
-    { id: 507, title: 'House', genreIds: ['Horror'],  image: 'http://localhost:5000/images/house.jpg'},
-    { id: 508, title: 'Silence of the Lambs', genreIds: ['Horror'],  image: 'http://localhost:5000/images/silence.jpg'},
-    { id: 509, title: 'Resident Evil', genreIds: ['Horror'],  image: 'http://localhost:5000/images/evil.jpg'},
+    { id: 501, title: '28 Days Later', genreIds: ['Horror'],  image: 'http://localhost:5000/images/28days.jpg',
+      links: {
+      youtube: 'https://www.youtube.com/watch?v=abc123',
+      dailymotion: 'https://www.dailymotion.com/video/xyz123',
+      prime: 'https://www.primevideo.com/detail/abc123',
+    },
+    },
+    { id: 502, title: '28 Weeks Later', genreIds: ['Horror'],  image: 'http://localhost:5000/images/28weeks.jpg',
+      links: {
+      youtube: 'https://www.youtube.com/watch?v=abc123',
+      dailymotion: 'https://www.dailymotion.com/video/xyz123',
+      prime: 'https://www.primevideo.com/detail/abc123',
+    },
+    },
+    { id: 503, title: 'Rosemarys Baby', genreIds: ['Horror'],  image: 'http://localhost:5000/images/rosemary.jpg',
+      links: {
+      youtube: 'https://www.youtube.com/watch?v=abc123',
+      dailymotion: 'https://www.dailymotion.com/video/xyz123',
+      prime: 'https://www.primevideo.com/detail/abc123',
+    },
+    },
+    { id: 504, title: 'Requiem for a Dream', genreIds: ['Horror'],  image: 'http://localhost:5000/images/dream.jpg',
+      links: {
+      youtube: 'https://www.youtube.com/watch?v=abc123',
+      dailymotion: 'https://www.dailymotion.com/video/xyz123',
+      prime: 'https://www.primevideo.com/detail/abc123',
+    },
+    },
+    { id: 505, title: 'Jacobs Ladder', genreIds: ['Horror'],  image: 'http://localhost:5000/images/jacob.jpg',
+      links: {
+      youtube: 'https://www.youtube.com/watch?v=abc123',
+      dailymotion: 'https://www.dailymotion.com/video/xyz123',
+      prime: 'https://www.primevideo.com/detail/abc123',
+    },
+    },
+    { id: 506, title: 'American Psycho', genreIds: ['Horror'],  image: 'http://localhost:5000/images/psycho.jpg',
+      links: {
+      youtube: 'https://www.youtube.com/watch?v=abc123',
+      dailymotion: 'https://www.dailymotion.com/video/xyz123',
+      prime: 'https://www.primevideo.com/detail/abc123',
+    },
+    },
+    { id: 507, title: 'House', genreIds: ['Horror'],  image: 'http://localhost:5000/images/house.jpg',
+      links: {
+      youtube: 'https://www.youtube.com/watch?v=abc123',
+      dailymotion: 'https://www.dailymotion.com/video/xyz123',
+      prime: 'https://www.primevideo.com/detail/abc123',
+    },
+    },
+    { id: 508, title: 'Silence of the Lambs', genreIds: ['Horror'],  image: 'http://localhost:5000/images/silence.jpg',
+      links: {
+      youtube: 'https://www.youtube.com/watch?v=abc123',
+      dailymotion: 'https://www.dailymotion.com/video/xyz123',
+      prime: 'https://www.primevideo.com/detail/abc123',
+    },
+    },
+    { id: 509, title: 'Resident Evil', genreIds: ['Horror'],  image: 'http://localhost:5000/images/evil.jpg',
+      links: {
+      youtube: 'https://www.youtube.com/watch?v=abc123',
+      dailymotion: 'https://www.dailymotion.com/video/xyz123',
+      prime: 'https://www.primevideo.com/detail/abc123',
+    },
+    },
   ];
 
 
