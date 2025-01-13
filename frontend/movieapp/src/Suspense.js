@@ -1,66 +1,75 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-function FilmSkip({ films, onFilmSelect }) {
-  const filmsContainerRef = useRef(null);
-  const filmsPerPage = 5;
+function Suspense() {
+  const [suspenseMovies, setSuspenseMovies] = useState([]);
+  const navigate = useNavigate();
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const fetchSuspenseMovies = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/films/suspense');
+        setSuspenseMovies(response.data);
+      } catch (error) {
+        console.error('Error fetching suspense movies:', error);
+      }
+    };
+
+    fetchSuspenseMovies();
+  }, []);
+
+  const handleFilmClick = (filmId) => {
+    navigate(`/movie/${filmId}`);
+  };
 
   const handleScroll = (direction) => {
-    if (filmsContainerRef.current) {
-      const scrollAmount = 200 * filmsPerPage; // Width of one film (200px) * filmsPerPage
-      const scrollTo = direction === 'next'
-        ? filmsContainerRef.current.scrollLeft + scrollAmount
-        : filmsContainerRef.current.scrollLeft - scrollAmount;
-
-      // Smooth scrolling
-      filmsContainerRef.current.scrollTo({
-        left: scrollTo,
-        behavior: 'smooth', // Enables smooth scrolling
+    if (containerRef.current) {
+      const scrollAmount = 200; // Adjust scroll distance
+      containerRef.current.scrollBy({
+        left: direction === 'next' ? scrollAmount : -scrollAmount,
+        behavior: 'smooth',
       });
     }
   };
 
   return (
-    <div style={{ textAlign: 'center' }}>
-      <h3>Select a Film to See Related Movies</h3>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '20px' }}>
-        {/* Left Arrow */}
+    <div style={{ textAlign: 'center', padding: '20px', color: 'white' }}>
+      <h3>Suspense Movies</h3>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
         <button
           onClick={() => handleScroll('previous')}
           style={{
             cursor: 'pointer',
             backgroundColor: 'transparent',
-            fontSize: '35px',
-            marginRight: '10px',
-            color: 'white',
             border: 'none',
+            fontSize: '30px',
+            color: 'white',
           }}
         >
           &#8592;
         </button>
 
-        {/* Films Container */}
         <div
-          ref={filmsContainerRef}
+          ref={containerRef}
           style={{
             display: 'flex',
-            gap: '20px',
-            overflow: 'hidden', // Hide the scrollbar
-            padding: '10px',
-            width: '850px', // Adjust width to fit visible films
-            maxWidth: '100%',
+            gap: '15px',
+            overflow: 'hidden',
+            width: '80%',
           }}
         >
-          {films.map((film) => (
+          {suspenseMovies.map((film) => (
             <div
               key={film.id}
+              onClick={() => handleFilmClick(film.id)}
               style={{
-                flex: '0 0 auto',
                 cursor: 'pointer',
                 border: '3px solid transparent',
                 borderRadius: '8px',
                 textAlign: 'center',
               }}
-              onClick={() => onFilmSelect(film.id)}
             >
               <img
                 src={film.image}
@@ -87,16 +96,14 @@ function FilmSkip({ films, onFilmSelect }) {
           ))}
         </div>
 
-        {/* Right Arrow */}
         <button
           onClick={() => handleScroll('next')}
           style={{
             cursor: 'pointer',
             backgroundColor: 'transparent',
-            fontSize: '35px',
-            marginLeft: '10px',
-            color: 'white',
             border: 'none',
+            fontSize: '30px',
+            color: 'white',
           }}
         >
           &#8594;
@@ -106,4 +113,4 @@ function FilmSkip({ films, onFilmSelect }) {
   );
 }
 
-export default FilmSkip;
+export default Suspense;

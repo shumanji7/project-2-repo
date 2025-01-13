@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import backgroundImage from './forest.jpg';
-import FilmSkip from './FilmSkip'; 
 import Horror from './Horror';
+import Suspense from './Suspense';
 
 
 
@@ -85,19 +85,9 @@ function Welcome() {
         overflowY: 'auto', 
       }}
     >
-            <FilmSkip
-          films={films}
-          onFilmSelect={(filmId) => {
-            handleFilmSelect(filmId); // Update selected film logic
-          }}
-        />
+            <Suspense />
 
-          <Horror
-          films={films}
-          onFilmSelect={(filmId) => {
-            handleFilmSelect(filmId); // Update selected film logic
-          }}
-        />
+            <Horror />
 
 
 
@@ -134,7 +124,7 @@ function Welcome() {
                         border: selectedFilms.includes(film.id) ? '3px solid #df7474' : '3px solid transparent',
                         borderRadius: '8px',
                       }}
-                      onClick={() => handleFilmSelect([film.id])} // Only fetch related movies for the clicked film
+                      onClick={() => handleFilmSelect([film.id])} 
                     >
                       <img
                         src={film.image}

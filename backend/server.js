@@ -7,6 +7,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
 
+
+
 // Server Setup
 const app = express();
 const PORT = 5000;
@@ -116,23 +118,59 @@ app.get('/welcome', (req, res) => {
   });
 });
 
+
+app.get('/movie/:id', (req, res) => {
+  const movieId = parseInt(req.params.id, 10);
+
+  // Find the movie in horror or suspense genres
+  const movie =
+    horror.find((film) => film.id === movieId) ||
+    suspense.find((film) => film.id === movieId);
+
+  if (!movie) {
+    return res.status(404).json({ error: 'Movie not found' });
+  }
+
+  // Get related movies by genre
+  const relatedMovies =
+    movie.genreIds.includes('Horror') ? horror.filter((film) => film.id !== movie.id) :
+    movie.genreIds.includes('Suspense') ? suspense.filter((film) => film.id !== movie.id) :
+    [];
+
+  res.json({ movie, relatedMovies });
+});
+
+
+
+
+app.get('/films/horror', (req, res) => {
+  res.json(horror);
+});
+
+
+app.get('/films/suspense', (req, res) => {
+  res.json(suspense);
+});
+
+
+
+
 //5 feature films to choose from
-const films = [
-  { id: 1, title: 'The Dark Knight', genreIds: ['Action'],  image: 'http://localhost:5000/images/knight.jpg' },
-  { id: 2, title: 'The Matrix', genreIds: ['Sci-Fi'], image: 'http://localhost:5000/images/matrix.jpg' },
-  { id: 3, title: 'Napoleon Dynamite', genreIds: ['Comedy'],  image: 'http://localhost:5000/images/napolean.jpg' },
-  { id: 4, title: 'Shawshank Redemption', genreIds: ['Drama'],  image: 'http://localhost:5000/images/shawshank.jpg' },
-  { id: 5, title: 'The Shining', genreIds: ['Horror'], image: 'http://localhost:5000/images/shining.jpg'},
-  { id: 6, title: 'No Country for Old Men', genreIds: ['Action'],  image: 'http://localhost:5000/images/country.jpg' },
-  { id: 7, title: 'A Beautiful Mind', genreIds: ['Sci-Fi'], image: 'http://localhost:5000/images/beautiful.jpg' },
-  { id: 8, title: 'Fargo', genreIds: ['Comedy'],  image: 'http://localhost:5000/images/fargo.jpg' },
-  { id: 9, title: 'Hangover', genreIds: ['Drama'],  image: 'http://localhost:5000/images/hangover.jpg' },
-  { id: 10, title: 'Borat', genreIds: ['Horror'], image: 'http://localhost:5000/images/borat.jpg'}
+const suspense = [
+  { id: 1, title: 'The Dark Knight', genreIds: ['Suspense'],  image: 'http://localhost:5000/images/knight.jpg' },
+  { id: 2, title: 'The Matrix', genreIds: ['Suspense'], image: 'http://localhost:5000/images/matrix.jpg' },
+  { id: 4, title: 'Shawshank Redemption', genreIds: ['Suspense'],  image: 'http://localhost:5000/images/shawshank.jpg' },
+  { id: 5, title: 'The Shining', genreIds: ['Suspense'], image: 'http://localhost:5000/images/shining.jpg'},
+  { id: 6, title: 'No Country for Old Men', genreIds: ['Suspense'],  image: 'http://localhost:5000/images/country.jpg' },
+  { id: 7, title: 'A Beautiful Mind', genreIds: ['Suspense'], image: 'http://localhost:5000/images/beautiful.jpg' },
+  { id: 8, title: 'Fargo', genreIds: ['Suspense'],  image: 'http://localhost:5000/images/fargo.jpg' },
+  { id: 9, title: 'Hangover', genreIds: ['Suspense'],  image: 'http://localhost:5000/images/hangover.jpg' },
+  { id: 10, title: 'Borat', genreIds: ['Suspense'], image: 'http://localhost:5000/images/borat.jpg'},
+
 ];
 
 //Selection of 9 related films per genre
-const relatedFilms = {
-  'Action': [
+const actionFilms = [
     { id: 101, title: 'Leon the Professional', genreIds: ['Action']},
     { id: 102, title: 'John Wick', genreIds: ['Action']},
     { id: 103, title: 'Full Metal Jacket', genreIds: ['Action']},
@@ -142,8 +180,9 @@ const relatedFilms = {
     { id: 107, title: 'Goldfinger', genreIds: ['Action']},
     { id: 108, title: 'The Warriors', genreIds: ['Action']},
     { id: 109, title: 'Apocalypse Now', genreIds: ['Action']},
-  ],
-  'Sci-Fi': [
+  ];
+  
+  const sciFi = [
     { id: 201, title: 'District 9', genreIds: ['Sci-Fi']},
     { id: 202, title: 'Alien', genreIds: ['Sci-Fi']},
     { id: 203, title: 'Moon', genreIds: ['Sci-Fi']},
@@ -153,8 +192,9 @@ const relatedFilms = {
     { id: 207, title: 'Donnie Darko', genreIds: ['Sci-Fi']},
     { id: 208, title: 'Blade Runner', genreIds: ['Sci-Fi']},
     { id: 209, title: 'Ex Machina', genreIds: ['Sci-Fi']},
-  ],
-  'Comedy': [
+  ];
+  const comedy = [
+    { id: 3, title: 'Napoleon Dynamite', genreIds: ['Comedy'],  image: 'http://localhost:5000/images/napolean.jpg' },
     { id: 301, title: 'Shaun of the Dead', genreIds: ['Comedy']},
     { id: 302, title: 'Friday', genreIds: ['Comedy']},
     { id: 303, title: 'Borat', genreIds: ['Comedy']},
@@ -164,8 +204,8 @@ const relatedFilms = {
     { id: 307, title: 'Anchorman', genreIds: ['Comedy']},
     { id: 308, title: 'The Big Lebowski', genreIds: ['Comedy']},
     { id: 309, title: 'Hot Fuzz', genreIds: ['Comedy']},
-  ],
-  'Drama': [
+  ];
+  const drama = [
     { id: 401, title: 'Scarface', genreIds: ['Drama']},
     { id: 402, title: 'City of God', genreIds: ['Drama']},
     { id: 403, title: 'The Green Mile', genreIds: ['Drama']},
@@ -175,60 +215,58 @@ const relatedFilms = {
     { id: 407, title: 'Goodfellas', genreIds: ['Drama']},
     { id: 408, title: 'The Truman Show', genreIds: ['Drama']},
     { id: 409, title: 'Taxi Driver', genreIds: ['Drama']},
-  ],
-  'Horror': [
-    { id: 501, title: '28 Days Later', genreIds: ['Horror']},
-    { id: 502, title: '28 Weeks Later', genreIds: ['Horror']},
-    { id: 503, title: 'Rosemarys Baby', genreIds: ['Horror']},
-    { id: 504, title: 'Requiem for a Dream', genreIds: ['Horror']},
-    { id: 505, title: 'Jacobs Ladder', genreIds: ['Horror']},
-    { id: 506, title: 'American Psycho', genreIds: ['Horror']},
-    { id: 507, title: 'House', genreIds: ['Horror']},
-    { id: 508, title: 'Silence of the Lambs', genreIds: ['Horror']},
-    { id: 509, title: 'Resident Evil', genreIds: ['Horror']},
-  ],
-};
+  ];
+  const horror = [
+    { id: 501, title: '28 Days Later', genreIds: ['Horror'],  image: 'http://localhost:5000/images/28days.jpg'},
+    { id: 502, title: '28 Weeks Later', genreIds: ['Horror'],  image: 'http://localhost:5000/images/28weeks.jpg'},
+    { id: 503, title: 'Rosemarys Baby', genreIds: ['Horror'],  image: 'http://localhost:5000/images/rosemary.jpg'},
+    { id: 504, title: 'Requiem for a Dream', genreIds: ['Horror'],  image: 'http://localhost:5000/images/dream.jpg'},
+    { id: 505, title: 'Jacobs Ladder', genreIds: ['Horror'],  image: 'http://localhost:5000/images/jacob.jpg'},
+    { id: 506, title: 'American Psycho', genreIds: ['Horror'],  image: 'http://localhost:5000/images/psycho.jpg'},
+    { id: 507, title: 'House', genreIds: ['Horror'],  image: 'http://localhost:5000/images/house.jpg'},
+    { id: 508, title: 'Silence of the Lambs', genreIds: ['Horror'],  image: 'http://localhost:5000/images/silence.jpg'},
+    { id: 509, title: 'Resident Evil', genreIds: ['Horror'],  image: 'http://localhost:5000/images/evil.jpg'},
+  ];
 
-function getRelatedMoviesByGenres(genres) {
-  const related = [];
-  genres.forEach(genre => {
-    if (relatedFilms[genre]) {
-      related.push(...relatedFilms[genre]);
-    }
-  });
 
-  const seen = new Set();
-  const uniqueMovies = related.filter(movie => {
-    if (seen.has(movie.id)) {
-        return false;
-    }
-    seen.add(movie.id);
-    return true;
-  });
-  return uniqueMovies;
-}
+// function getRelatedMoviesByGenres(genres) {
+//   const related = [];
+//   genres.forEach(genre => {
+//     if (relatedFilms[genre]) {
+//       related.push(...relatedFilms[genre]);
+//     }
+//   });
 
-function displayRelatedMovies(movies) {
-  const relatedMoviesElement = document.getElementById('related-movies');
-  relatedMoviesElement.innerHTML = ''; 
+//   const seen = new Set();
+//   const uniqueMovies = related.filter(movie => {
+//     if (seen.has(movie.id)) {
+//         return false;
+//     }
+//     seen.add(movie.id);
+//     return true;
+//   });
+//   return uniqueMovies;
+// }
 
-  if (movies.length === 0) {
-    relatedMoviesElement.innerHTML = '<p>No related movies found.</p>';
-  } else {
-    movies.forEach(movie => {
-      const movieElement = document.createElement('div');
-      movieElement.classList.add('related-movie');
-      movieElement.textContent = movie.title;
-      relatedMoviesElement.appendChild(movieElement);
-    });
-  }
-}
+
+// function displayRelatedMovies(movies) {
+//   const relatedMoviesElement = document.getElementById('related-movies');
+//   relatedMoviesElement.innerHTML = ''; 
+
+//   if (movies.length === 0) {
+//     relatedMoviesElement.innerHTML = '<p>No related movies found.</p>';
+//   } else {
+//     movies.forEach(movie => {
+//       const movieElement = document.createElement('div');
+//       movieElement.classList.add('related-movie');
+//       movieElement.textContent = movie.title;
+//       relatedMoviesElement.appendChild(movieElement);
+//     });
+//   }
+// }
 
 app.use(express.static('public'));
 
-app.get('/films', (req, res) => {
-  res.json(films);
-});
 app.get('/related-movies', (req, res) => {
   const selectedFilmIds = req.query.ids ? req.query.ids.split(',').map(Number) : [];
 
