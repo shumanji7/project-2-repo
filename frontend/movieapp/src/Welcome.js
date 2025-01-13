@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import backgroundImage from './forest.jpg';
+import FilmSkip from './FilmSkip'; 
+import Horror from './Horror';
+
+
 
 function Welcome() {
   const [username, setUsername] = useState('');
@@ -61,14 +65,9 @@ function Welcome() {
   }, [selectedFilms]);
 
   const handleFilmSelect = (filmId) => {
-    setSelectedFilms((prevSelectedFilms) => {
-      if (prevSelectedFilms.includes(filmId)) {
-        return prevSelectedFilms.filter((id) => id !== filmId);
-      } else {
-        return [...prevSelectedFilms, filmId];
-      }
-    });
+    setSelectedFilms([filmId]); 
   };
+  
 
   return (
     <div
@@ -86,45 +85,95 @@ function Welcome() {
         overflowY: 'auto', 
       }}
     >
+            <FilmSkip
+          films={films}
+          onFilmSelect={(filmId) => {
+            handleFilmSelect(filmId); // Update selected film logic
+          }}
+        />
+
+          <Horror
+          films={films}
+          onFilmSelect={(filmId) => {
+            handleFilmSelect(filmId); // Update selected film logic
+          }}
+        />
+
+
+
+
       <div style={{ 
         backgroundColor: 'rgba(0, 0, 0, 0.6)', 
         padding: '20px', 
         borderRadius: '8px', 
         maxWidth: '90%', 
-        width: '400px', 
+        width: '1000px', 
         marginTop: '30px',
       }}>
-        <h1>{username}</h1>
-        <div style={{ marginTop: '20px' }}>
-          <h3>Select Films to See Related Movies</h3>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            {films.map((film) => (
-              <div key={film.id} style={{ margin: '10px' }}>
-                <input
-                  type="checkbox"
-                  id={`film-${film.id}`}
-                  onChange={() => handleFilmSelect(film.id)}
-                  checked={selectedFilms.includes(film.id)}
-                />
-                <label htmlFor={`film-${film.id}`} style={{ marginLeft: '8px' }}>
-                  {film.title} - {film.genre}
-                </label>
-              </div>
-            ))}
-          </div>
-        </div>
-        {relatedMovies.length > 0 && (
-          <div style={{ marginTop: '40px' }}>
-            <h3>Related Movies</h3>
-            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-              {relatedMovies.map((movie) => (
-                <div key={movie.id} style={{ margin: '10px', width: '150px', textAlign: 'center' }}>
-                  <h4>{movie.title}</h4>
+   
+              <h1>{username}</h1>
+            <div style={{ marginTop: '10px' }}>
+              <h3>Select a Film to See Related Movies</h3>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    overflowX: 'auto',
+                    padding: '10px',
+                    gap: '20px',
+                    whiteSpace: 'nowrap',
+                    width: '100%',
+                  }}
+                >
+                  {films.map((film) => (
+                    <div
+                      key={film.id}
+                      style={{
+                        flex: '0 0 auto',
+                        cursor: 'pointer',
+                        border: selectedFilms.includes(film.id) ? '3px solid #df7474' : '3px solid transparent',
+                        borderRadius: '8px',
+                      }}
+                      onClick={() => handleFilmSelect([film.id])} // Only fetch related movies for the clicked film
+                    >
+                      <img
+                        src={film.image}
+                        alt={film.title}
+                        style={{
+                          width: '200px',
+                          height: '300px',
+                          objectFit: 'cover',
+                        }}
+                      />
+                      <div
+                        style={{
+                          backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                          color: 'white',
+                          padding: '5px 0',
+                          textAlign: 'center',
+                          fontSize: '14px',
+                        }}
+                      >
+                        {film.title}
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
             </div>
-          </div>
-        )}
+            {relatedMovies.length > 0 && (
+              <div style={{ marginTop: '40px' }}>
+                <h3>Related Movies</h3>
+                <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+                  {relatedMovies.map((movie) => (
+                    <div key={movie.id} style={{ margin: '10px', textAlign: 'center' }}>
+                      <h4>{movie.title}</h4>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
 
         <button
           onClick={() => navigate('/')}

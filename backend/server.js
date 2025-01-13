@@ -1,10 +1,11 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const cookieParser = require('cookie-parser');
 const mysql = require('mysql2');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const path = require('path');
 
 // Server Setup
 const app = express();
@@ -13,6 +14,8 @@ const PORT = 5000;
 app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use('/images', express.static(path.join(__dirname, 'images')));
+
 
 // MySQL Database Connection
 const db = mysql.createConnection({
@@ -115,11 +118,16 @@ app.get('/welcome', (req, res) => {
 
 //5 feature films to choose from
 const films = [
-  { id: 1, title: 'The Dark Knight', genreIds: ['Action']},
-  { id: 2, title: 'The Matrix', genreIds: ['Sci-Fi']},
-  { id: 3, title: 'Napoleon Dynamite', genreIds: ['Comedy']},
-  { id: 4, title: 'Shawshank Redemption', genreIds: ['Drama']},
-  { id: 5, title: 'The Shining', genreIds: ['Horror']},
+  { id: 1, title: 'The Dark Knight', genreIds: ['Action'],  image: 'http://localhost:5000/images/knight.jpg' },
+  { id: 2, title: 'The Matrix', genreIds: ['Sci-Fi'], image: 'http://localhost:5000/images/matrix.jpg' },
+  { id: 3, title: 'Napoleon Dynamite', genreIds: ['Comedy'],  image: 'http://localhost:5000/images/napolean.jpg' },
+  { id: 4, title: 'Shawshank Redemption', genreIds: ['Drama'],  image: 'http://localhost:5000/images/shawshank.jpg' },
+  { id: 5, title: 'The Shining', genreIds: ['Horror'], image: 'http://localhost:5000/images/shining.jpg'},
+  { id: 6, title: 'No Country for Old Men', genreIds: ['Action'],  image: 'http://localhost:5000/images/country.jpg' },
+  { id: 7, title: 'A Beautiful Mind', genreIds: ['Sci-Fi'], image: 'http://localhost:5000/images/beautiful.jpg' },
+  { id: 8, title: 'Fargo', genreIds: ['Comedy'],  image: 'http://localhost:5000/images/fargo.jpg' },
+  { id: 9, title: 'Hangover', genreIds: ['Drama'],  image: 'http://localhost:5000/images/hangover.jpg' },
+  { id: 10, title: 'Borat', genreIds: ['Horror'], image: 'http://localhost:5000/images/borat.jpg'}
 ];
 
 //Selection of 9 related films per genre
